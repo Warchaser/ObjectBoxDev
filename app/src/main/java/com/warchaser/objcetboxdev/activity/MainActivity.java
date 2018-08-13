@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.warchaser.objcetboxdev.R;
+import com.warchaser.objcetboxdev.app.App;
 import com.warchaser.objcetboxdev.app.BaseActivity;
 import com.warchaser.objcetboxdev.nosql.dao.BaseDao;
 import com.warchaser.objcetboxdev.nosql.entity.ExampleEntity;
+import com.warchaser.objcetboxdev.util.Constant;
 
 import java.util.List;
 
@@ -46,13 +48,21 @@ public class MainActivity extends BaseActivity {
                 insert();
                 break;
             case R.id.btn_remove:
+                startResultActivity(Constant.MODE_REMOVE);
                 break;
             case R.id.btn_query:
-                query();
+                startResultActivity(Constant.MODE_QUERY);
+//                query();
                 break;
             default:
                 break;
         }
+    }
+
+    private void startResultActivity(String opMode){
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra(Constant.OP_MODE, opMode);
+        startActivity(intent);
     }
 
     @Override
@@ -67,6 +77,8 @@ public class MainActivity extends BaseActivity {
             mDao.close();
             mDao = null;
         }
+
+        App.getInstance().exitApp();
 
     }
 }

@@ -41,4 +41,17 @@ public class App extends Application {
 
         return mBoxStore;
     }
+
+    public void exitApp(){
+
+        //有相关文献称，不需要关闭数据库
+        //且调用此句话后，确实有io.objectb=ox.BoxStore.finalize() timed out after 20 seconds错误
+//        if (mBoxStore != null){
+//            mBoxStore.closeThreadResources();
+//            mBoxStore = null;
+//        }
+        //以上
+
+
+    }
 }

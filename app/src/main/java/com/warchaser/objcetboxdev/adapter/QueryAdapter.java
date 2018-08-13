@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.warchaser.objcetboxdev.R;
@@ -21,8 +22,21 @@ public class QueryAdapter extends BaseAdapter {
     private List<ExampleEntity> mDataList = new ArrayList<>();
     private Context mContext;
 
+    private OnRemoveClicked mOnRemoveClicked;
+    private boolean mIsRemoveMode = false;
+
     public QueryAdapter(Context context){
         this.mContext = context;
+    }
+
+    public QueryAdapter(Context context, boolean isRemoveMode){
+        this.mContext = context;
+        this.mIsRemoveMode = isRemoveMode;
+    }
+
+    public void setIsRemoveMode(boolean isRemoveMode){
+        this.mIsRemoveMode = isRemoveMode;
+        notifyDataSetChanged();
     }
 
     public void notifyDataSetAllChanged(List<ExampleEntity> list){
@@ -55,7 +69,7 @@ public class QueryAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         VH vh = null;
-        ExampleEntity bean = (ExampleEntity) getItem(position);
+        final ExampleEntity bean = (ExampleEntity) getItem(position);
 
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_quey, parent, false);
@@ -69,7 +83,29 @@ public class QueryAdapter extends BaseAdapter {
         vh.mTvName.setText(bean.name);
         vh.mTvAge.setText(String.valueOf(bean.age));
 
+        if (mIsRemoveMode){
+            vh.mBtnRemove.setVisibility(View.VISIBLE);
+            vh.mBtnRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mOnRemoveClicked != null){
+                        mOnRemoveClicked.onClick(bean.id);
+                    }
+                }
+            });
+        } else {
+            vh.mBtnRemove.setVisibility(View.GONE);
+        }
+
         return convertView;
+    }
+
+    public interface OnRemoveClicked{
+        void onClick(long id);
+    }
+
+    public void setOnRemoveClickedAction(OnRemoveClicked listener){
+        this.mOnRemoveClicked = listener;
     }
 
     class VH{
@@ -85,6 +121,9 @@ public class QueryAdapter extends BaseAdapter {
 
         @BindView(R.id.tv_age)
         TextView mTvAge;
+
+        @BindView(R.id.btn_remove)
+        Button mBtnRemove;
 
     }
 }
