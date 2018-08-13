@@ -1,11 +1,12 @@
 package com.warchaser.objcetboxdev.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.warchaser.objcetboxdev.R;
+import com.warchaser.objcetboxdev.app.BaseActivity;
 import com.warchaser.objcetboxdev.nosql.dao.BaseDao;
 import com.warchaser.objcetboxdev.nosql.entity.ExampleEntity;
 
@@ -15,8 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends BaseActivity {
 
     private Unbinder mUnBinder = null;
 
@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void query(){
-        List<ExampleEntity> list = mDao.getAllNow();
+        startActivity(new Intent(this, ResultActivity.class));
+//        List<ExampleEntity> list = mDao.getAllNow();
     }
 
     @OnClick({R.id.btn_insert, R.id.btn_remove, R.id.btn_query})

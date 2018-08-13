@@ -3,6 +3,7 @@ package com.warchaser.objcetboxdev.nosql.entity;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Uid;
 
 @Entity
 public class ExampleEntity{
@@ -24,6 +25,7 @@ public class ExampleEntity{
 
     public String name;
 
+    @Uid(2049970417808647494L)
     public int age;
 
 }
